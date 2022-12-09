@@ -26,5 +26,13 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.7.3"
   },
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HongjinZhu/InfoVis_Final_Project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HongjinZhu/InfoVis_Final_Project/issues"
+  },
+  "homepage": "https://github.com/HongjinZhu/InfoVis_Final_Project#readme"
 }

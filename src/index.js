@@ -5,6 +5,7 @@ import { csv, min, max, median, interpolateGnBu, interpolateRdBu, mean } from "d
 import { Scales } from "./scale";
 import { Legend } from "./legend";
 import { HeatMap } from "./heatmap";
+import { Tooltip } from "./tooltip";
 import "./styles.css";
 
 
@@ -26,7 +27,10 @@ function useData(csvPath){
  
 }
 function General() {
-    const [selectedCountry, setselectedCountry] = React.useState('China');
+    const [selectedCountry, setSelectedCountry] = React.useState('China');
+    const [selectedCell,setSelectedCell] = React.useState(null);
+    const [left,setLeft] = React.useState(null);
+    const [top,setTop] = React.useState(null);
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
     
@@ -83,27 +87,46 @@ function General() {
     }
    const onclick = (e)=> {
         // console.log(e.currentTarget.textContent);
-        setselectedCountry(e.currentTarget.textContent);
+        setSelectedCountry(e.currentTarget.textContent);
     }
+    const mouseoverCell = (e,data) =>{
+      setSelectedCell(data);
+      setLeft(e.pageX);
+      setTop(e.pageY);
+      
+  }
+  const mouseoutCell = () =>{
+      setSelectedCell(null);
+      setLeft(null);
+      setTop(null);
+  }
     return <div className = "allContents">
-            
-              <div className = "country">D<i>e</i>aths Proportion in {selectedCountry}</div>
-              <div className="dropdown">
-              <button onClick={myFunction} className="dropbtn">Click to Search for Country</button>
-              <div id="myDropdown" className="dropdown-content">
-                  <input type="text" placeholder={selectedCountry} id="myInput" onKeyUp={filterFunction}/>
-                  <ul className="ulDropdown">
-                  {filteredCountry.map(s => {
-                      // console.log(s)
-                      {/* `searching ${s}` */}
-                      return <li key={s} id = {s} onClick = {onclick}>{s}</li>
-                  })}
-                  </ul>
-              </div>
+            <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
+            <div className="dropdown">
+            <button onClick={myFunction} className="dropbtn">Click to Search for Country</button>
+            <div id="myDropdown" className="dropdown-content">
+                <input type="text" placeholder={selectedCountry} id="myInput" onKeyUp={filterFunction}/>
+                <ul className="ulDropdown">
+                {filteredCountry.map(s => {
+                    // console.log(s)
+                    {/* `searching ${s}` */}
+                    return <li key={s} id = {s} onClick = {onclick}>{s}</li>
+                })}
+                </ul>
             </div>
-        <HeatMap WIDTH={WIDTH} HEIGHT={HEIGHT} data={data} 
-        allCauses = {filteredCauses} allCountries = {filteredCountry}
-        allYears = {filteredYears} selectedCountry={selectedCountry} />
-     </div>
+          </div>
+          <svg width={WIDTH} height={HEIGHT}>
+          <HeatMap WIDTH={WIDTH} HEIGHT={HEIGHT} data={data} 
+          allCauses = {filteredCauses} allCountries = {filteredCountry}
+          allYears = {filteredYears} selectedCountry={selectedCountry} 
+          mouseoverCell = {mouseoverCell} mouseoutCell = {mouseoutCell}
+          />
+          </svg>
+          <button><a href="#detail">Click Me to See Details</a></button>
+          <div id = 'detail'> 
+          <svg width={WIDTH} height={HEIGHT}></svg>
+          </div>
+          <Tooltip d={selectedCell} data = {data} left={left} top={top}/>
+      </div>
 }
 ReactDOM.render(<General/ >, document.getElementById("root"));

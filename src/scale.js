@@ -9,7 +9,7 @@ export const Scales = {
             .nice();
         },
     band: (discreteValue, start_pos, end_pos) => {
-        console.log('the discrete scale');
+        // console.log('the discrete scale');
         // console.log(stations);
         return scaleBand()
         .range([start_pos, end_pos])

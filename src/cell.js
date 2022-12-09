@@ -1,22 +1,11 @@
 import React from "react";
 
 export function Cell(props){
-    const { xScale, yScale, cause, year, p, color} = props;
-    const mouseOver = (e,d) =>{
-        console.log('hihihihihihihih');
-        setSelectedCell(d);
-        setLeft(e.pageX);
-        setTop(e.pageY);
-        console.log(e.pageX, e.pageY);
-    }
-    const mouseOut = () =>{
-        setSelectedCell(null);
-        setLeft(null);
-        setTop(null);
-    }
+    const { xScale, yScale, cause, year, p, color,mouseover,mouseout,data} = props;
+    
     
     return <g transform={`translate(${xScale(year)}, ${yScale(cause)})`}>
         <rect width={xScale.bandwidth()} height={yScale.bandwidth()} fill={color} 
-        onMouseOver={()=> console.log("mouse over")} onMouseOut={mouseOut} />
+        onMouseOver={(e)=> mouseover(e,data)} onMouseOut={mouseout} />
     </g>
 }
