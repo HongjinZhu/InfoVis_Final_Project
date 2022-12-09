@@ -3,7 +3,7 @@ import { scaleLinear } from 'd3';
 
 export function Legend(props) {
     const {x, y, width, height, numberOfTicks, rangeOfValues, colormap} = props; 
-    console.log(rangeOfValues);
+    // console.log(rangeOfValues);
     const [start, end] = rangeOfValues;
     const xScale = scaleLinear().range([x, x+width]).domain(rangeOfValues).nice();
     const ticks = xScale.ticks(numberOfTicks);
@@ -23,7 +23,7 @@ export function Legend(props) {
             ticks.map( tick => {
                 return <g key={tick} transform={`translate(${xScale(tick)}, ${y})`}>
                     <line y2={height} stroke={'black'} />
-                    <text style={{textAnchor:'middle'}} y={height+15}>
+                    <text style={{fontSize:'11px', fontFamily:'Nunito'}} y={height+15}>
                         {tick}
                     </text>
                 </g>}

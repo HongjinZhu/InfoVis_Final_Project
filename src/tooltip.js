@@ -1,7 +1,7 @@
 import React from "react";
 
 export function Tooltip(props) {
-    const {d, left, top} = props;
+    const {d,p, left, top} = props;
     if (left === null) {
         return <div></div>;
     } else {
@@ -21,12 +21,12 @@ export function Tooltip(props) {
         };
         return <div style={divStyle} >
             <p>{d}</p>
-            {/* <p>{d.station}</p>
-            <p>Trip durations:</p>
+            <p>{d.country}</p>
+            <p>Proportion of Deaths:{p(d.year,d.cause,d.deaths)}</p>
             <ul> 
-            <li>End in: {d.tripdurationE}</li>
-            <li>Start from: {d.tripdurationS}</li>
-            </ul> */}
+            <li>caused by {d.cause}</li>
+            <li>in {d.country}</li>
+            </ul>
             </div>
     };  
 }
