@@ -7,6 +7,7 @@ import { Legend } from "./legend";
 import { HeatMap } from "./heatmap";
 import { Tooltip } from "./tooltip";
 import "./styles.css";
+import { BarChart } from "./barchart";
 
 
 const csvUrl = 'https://raw.githubusercontent.com/HongjinZhu/InfoVis_Final_Project/main/new_cod.csv';
@@ -100,6 +101,9 @@ function General() {
       setLeft(null);
       setTop(null);
   }
+  const barData = data.filter( d => { 
+    return d.year === filteredYears[year] 
+});
     return <div className = "allContents">
             <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
             <div className="dropdown">
@@ -124,7 +128,13 @@ function General() {
           </svg>
           <button><a href="#detail">Click Me to See Details</a></button>
           <div id = 'detail'> 
-          <svg width={WIDTH} height={HEIGHT}></svg>
+          <svg width={WIDTH} height={HEIGHT}>
+          <div>
+            <input key="slider" type='range' min='0' max='11' value={year} step='1' onChange={changeHandler}/>
+            <input key="monthText" type="text" value={allYears[year]} readOnly/>
+          </div>
+          <BarChart data={barData} height={HEIGHT} width={WIDTH/2}  ></BarChart>
+          </svg>
           </div>
           <Tooltip d={selectedCell} data = {data} left={left} top={top}/>
       </div>
