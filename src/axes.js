@@ -3,7 +3,7 @@ import React from "react";
 export { XAxis, YAxis };
 
 function XAxis (props) {
-    const {chartType,xScale,height,width,axisLable} = props;
+    const {className,chartType,xScale,height,width,axisLable} = props;
     
     if (chartType === "line") {
         const ticks = xScale.ticks();
@@ -22,12 +22,12 @@ function XAxis (props) {
 
     if (chartType === "bar") {
         const ticks = xScale.domain();
-        return <g >
-        <line x1={0} y1={height} x2={xScale()} y2={height} stroke={'black'} />
-        <text   style = {{fontSize:'14px'}} transform={`translate(${width-180},${height-10})`}>{axisLable}</text>
+        return <g className={className} >
+        <line x1={width/2} y1={height} x2={xScale()} y2={height} stroke={'black'} />
+        <text   style = {{fontSize:'20px'}} transform={`translate(${width-10},${height-30})`}>{axisLable}</text>
         {ticks.map(tickValue =>{
             return <g key = {tickValue} transform={`translate(${xScale(tickValue)},${height})`}>
-                    <text style = {{ textAnchor:'start',fontSize:'6px' }}  transform={`translate(${0},${3}), rotate(63) `}>
+                    <text style = {{ textAnchor:'start',fontSize:'12px' }}  transform={`translate(${0},${width/(31*2)}), rotate(63) `}>
                     {tickValue}   
                     </text>
             </g>})}
@@ -48,7 +48,7 @@ function YAxis(props) {
                     </text>
             </g>
         })}
-        <text style = {{fontSize:'14px'}} transform={`translate(${15},${120}) , rotate(-90)`}>{axisLable}</text>
+        <text style = {{fontSize:'20px'}} transform={`translate(${25},${0}) `}>{axisLable}</text>
     </g>
     
 }

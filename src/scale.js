@@ -2,7 +2,7 @@ import { scaleLinear, scaleBand, scaleSequential, scaleDiverging } from "d3";
 
 export const Scales = {
     linear: (min_value, max_value, start_pos, end_pos) => {
-        console.log('the linear scale');
+        // console.log('the linear scale');
         return scaleLinear()
             .range([start_pos, end_pos])
             .domain([min_value, max_value])

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Cell } from "./cell";
-import { csv, min, max, median, interpolateGnBu, interpolateRdBu, mean } from "d3";
+import { csv, min, max, median, interpolateGnBu, interpolateRdBu, mean,descending,ascending } from "d3";
 import { Scales } from "./scale";
 import { Legend } from "./legend";
 import { HeatMap } from "./heatmap";
@@ -29,9 +29,13 @@ function useData(csvPath){
 }
 function General() {
     const [selectedCountry, setSelectedCountry] = React.useState('China');
+    const [year, setYear] = React.useState('19');
     const [selectedCell,setSelectedCell] = React.useState(null);
+    const [selectedOrder,setSelectedOrder] = React.useState(null);
     const [left,setLeft] = React.useState(null);
     const [top,setTop] = React.useState(null);
+    // const [barData,setBarData] = React.useState(null);
+
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
     
@@ -42,12 +46,15 @@ function General() {
     const data = dataAll.filter( d => { 
       return d.country=== selectedCountry 
     });
+    
     // get cause lists
     var cause= data.map(d=>d.cause);
-    var filteredCauses = []
+    var filteredCauses = [];
+    var barCauses = [];
     for (let i = 0; i < cause.length; i++) {
       if (filteredCauses.includes(cause[i])===false) {
         filteredCauses.push(cause[i])
+        barCauses.push(cause[i])
       }
     }
     var country = dataAll.map(d=>d.country);
@@ -65,9 +72,40 @@ function General() {
           filteredYears.push(years[i])
         }
     }
-    // console.log(filteredCountry);
-    // console.log(filteredCauses);
-    // console.log(filteredYears);
+   
+    const changeHandler = (event) => {
+      setYear(event.target.value);
+      // setBarData(data.filter( d => { 
+      //   return d.year === filteredYears[year] 
+      // }))
+    }
+    // console.log(barData);
+    const barData = data.filter( d => { 
+      return d.year === filteredYears[year] 
+    });
+    const changeOrder = (event) => {
+      setSelectedOrder(event.target.value);
+    }
+    if (selectedOrder =="decrease") {
+      barData.sort((a, b) => ascending(a.deaths, b.deaths));
+      cause= barData.map(d=>d.cause)
+      barCauses  = []
+      for (let i = 0; i < cause.length; i++) {
+        if (barCauses .includes(cause[i])===false) {
+          barCauses.push(cause[i])
+        }
+      }
+      console.log(barCauses);
+    }else if(selectedOrder =="increase"){
+      barData.sort((a, b) => descending(a.deaths, b.deaths));
+      cause= barData.map(d=>d.cause)
+      barCauses = []
+      for (let i = 0; i < cause.length; i++) {
+        if (barCauses.includes(cause[i])===false) {
+          barCauses.push(cause[i])
+        }
+      }
+    }
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
@@ -101,9 +139,7 @@ function General() {
       setLeft(null);
       setTop(null);
   }
-  const barData = data.filter( d => { 
-    return d.year === filteredYears[year] 
-});
+ 
     return <div className = "allContents">
             <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
             <div className="dropdown">
@@ -128,12 +164,20 @@ function General() {
           </svg>
           <button><a href="#detail">Click Me to See Details</a></button>
           <div id = 'detail'> 
-          <svg width={WIDTH} height={HEIGHT}>
           <div>
-            <input key="slider" type='range' min='0' max='11' value={year} step='1' onChange={changeHandler}/>
-            <input key="monthText" type="text" value={allYears[year]} readOnly/>
+            <input key="slider" type='range' min='0' max='29' value={year} step='1' onChange={changeHandler}/>
+            <input key="yearText" type="text" value={filteredYears[year]} readOnly/>
           </div>
-          <BarChart data={barData} height={HEIGHT} width={WIDTH/2}  ></BarChart>
+          <label >Choose an order: </label>
+          <select id="orders" onChange={changeOrder}>
+          <option value = "null">Choose </option>
+          <option value="increase">Increasing Order</option>
+          <option value="decrease">Decreasing Order</option>
+          </select>
+          <svg width={WIDTH} height={HEIGHT}>
+         
+          <BarChart className="bars" data={barData} HEIGHT={HEIGHT-200} WIDTH={WIDTH/2} allCauses={barCauses}  
+          selectedOrder={selectedOrder}></BarChart>
           </svg>
           </div>
           <Tooltip d={selectedCell} data = {data} left={left} top={top}/>
