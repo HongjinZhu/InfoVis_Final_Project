@@ -8,6 +8,7 @@ import { HeatMap } from "./heatmap";
 import { Tooltip } from "./tooltip";
 import "./styles.css";
 import { BarChart } from "./barchart";
+import { MultipleLineChart } from "./linechart";
 
 
 const csvUrl = 'https://raw.githubusercontent.com/HongjinZhu/InfoVis_Final_Project/main/new_cod.csv';
@@ -83,6 +84,7 @@ function General() {
     const barData = data.filter( d => { 
       return d.year === filteredYears[year] 
     });
+
     const changeOrder = (event) => {
       setSelectedOrder(event.target.value);
     }
@@ -124,6 +126,7 @@ function General() {
           }
         }
     }
+
    const onclick = (e)=> {
         // console.log(e.currentTarget.textContent);
         setSelectedCountry(e.currentTarget.textContent);
@@ -175,9 +178,10 @@ function General() {
           <option value="decrease">Decreasing Order</option>
           </select>
           <svg width={WIDTH} height={HEIGHT}>
-         
           <BarChart className="bars" data={barData} HEIGHT={HEIGHT-200} WIDTH={WIDTH/2} allCauses={barCauses}  
-          selectedOrder={selectedOrder}></BarChart>
+          selectedOrder={selectedOrder} />
+          <MultipleLineChart x={WIDTH/2} y={0} WIDTH={WIDTH/2} HEIGHT={HEIGHT-200} years={years.sort()} data={data} 
+          allCauses = {filteredCauses} allCountries = {filteredCountry} allYears = {filteredYears} />
           </svg>
           </div>
           <Tooltip d={selectedCell} data = {data} left={left} top={top}/>
