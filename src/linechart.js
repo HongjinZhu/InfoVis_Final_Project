@@ -31,7 +31,7 @@ export function MultipleLineChart(props){
     const line = d3.line().x(d => d[0]).y(d => d[1]);
     const xTicks = xScale.domain();
     const yTicks = yScale.ticks();
-    
+
     var points1 = [];
     for (let idx = 0; idx < 30; idx++) {
         points1.push([xScale(parseInt(Object.keys(di)[idx])),yScale(Object.values(di)[idx])])
@@ -80,7 +80,7 @@ export function MultipleLineChart(props){
                     </text>
             </g> 
         })}
-        <text style={{ textAnchor:'end', fontSize:'20px'}} transform={`translate(${width+10}, ${height+40})`}>
+        <text style={{ textAnchor:'end', fontSize:'20px'}} transform={`translate(${width+50}, ${height+60})`}>
                         {"Year"}
             </text>
         
@@ -88,17 +88,15 @@ export function MultipleLineChart(props){
         <path d={line(points2)} stroke={"#8D88BF"} strokeWidth={3} fill={"none"} transform={`translate(10,50)`} />
         <path d={line(points3)} stroke={"#8C61AC"} strokeWidth={3} fill={"none"} transform={`translate(10,50)`} />
 
-        {/* <path d={line(week4)} stroke={"#abdda4"} strokeWidth={3} fill={"none"} />
-        <path d={line(week5)} stroke={"#2b83ba"} strokeWidth={3} fill={"none"} /> */}
-        {/* <text style={{ textAnchor:'end', fontSize:'18px'}} transform={`translate(${xScale(Object.keys(di))}, ${yScale(Object.values(di))})`}>
+        <text style={{ textAnchor:'end', fontSize:'18px'}} stroke={"#4D004B"} transform={`translate(${xScale(parseInt(Object.keys(di)[29]))}, ${yScale(Object.values(di)[29])+50})`}>
                         {"Diseases"}
             </text>
-        <text style={{ textAnchor:'end', fontSize:'18px'}} transform={`translate(${xScale(Object.keys(hf))}, ${yScale(Object.values(hf))})`}>
+        <text style={{ textAnchor:'end', fontSize:'18px'}} stroke={"#8D88BF"} transform={`translate(${xScale(parseInt(Object.keys(hf)[29]))}, ${yScale(Object.values(hf)[29])+50})`}>
                         {"Human Factors"}
             </text>
-        <text style={{ textAnchor:'end', fontSize:'18px'}} transform={`translate(${xScale(Object.keys(nf))+60}, ${yScale(Object.values(nf))+10})`}>
+        <text style={{ textAnchor:'end', fontSize:'18px'}} stroke={"#8C61AC"} transform={`translate(${xScale(parseInt(Object.keys(nf)[29]))}, ${yScale(Object.values(nf)[29])+50})`}>
                         {"Natural Factors"}
-        </text> */}
+        </text>
 
         </g>
 
