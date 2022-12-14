@@ -91,8 +91,9 @@ function General() {
       // }))
     }
     // console.log(barData);
+    let sortedYears = filteredYears.sort();
     const barData = data.filter( d => { 
-      return d.year === filteredYears[year] 
+      return d.year === sortedYears[year] 
     });
 
     const changeOrder = (event) => {
@@ -173,7 +174,6 @@ function General() {
   const mouseOut = () =>{
       setSelectedCause(null);
   }
-  let sortedYears = filteredYears.sort();
  
     return <div className = "allContents">
             <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
