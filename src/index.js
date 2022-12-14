@@ -83,7 +83,7 @@ function General() {
           filteredYears.push(years[i])
         }
     }
-   
+
     const changeHandler = (event) => {
       setYear(event.target.value);
       // setBarData(data.filter( d => { 
@@ -153,7 +153,7 @@ function General() {
       setTop(null);
   }
   const mouseOver = (d) =>{
-    console.log(d);
+    // console.log(d);
     if(d.cause!==undefined){
       // setSelectedCause(d.cause);
       if (diseases.includes(d.cause)) {
@@ -168,12 +168,12 @@ function General() {
     }else{
         setSelectedCause(d);
     }
-    console.log(selectedCause);
+    // console.log(selectedCause);
   }
   const mouseOut = () =>{
       setSelectedCause(null);
   }
-
+  let sortedYears = filteredYears.sort();
  
     return <div className = "allContents">
             <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
@@ -202,7 +202,7 @@ function General() {
           <div id = 'detail'> 
           <div>
             <input key="slider" type='range' min='0' max='29' value={year} step='1' onChange={changeHandler}/>
-            <input key="yearText" type="text" value={filteredYears[year]} readOnly/>
+            <input key="yearText" type="text" value={sortedYears[year]} readOnly/>
           </div>
           <label >Choose an order: </label>
           <select id="orders" onChange={changeOrder}>
