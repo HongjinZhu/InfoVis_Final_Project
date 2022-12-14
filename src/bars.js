@@ -16,8 +16,21 @@ export function Bars(props){
     "Fire, Heat, and Hot Substances"]
     const getColor = (cause) => {
         var color;
-        if (cause == selectedCause) {
-            color = "#e75480"
+        if (selectedCause!=null) {
+            if (selectedCause.includes(cause)) {
+                color = "#e75480"
+            }
+           else{
+            if (diseases.includes(cause)) {
+                color = '#4D004B'
+            }
+            if (humanFactors.includes(cause)) {
+                color = '#8D88BF'
+            }
+            if (natureFactors.includes(cause)) {
+                color = '#8C61AC'
+            }
+           }
         }else{
             if (diseases.includes(cause)) {
                 color = '#4D004B'
@@ -29,6 +42,7 @@ export function Bars(props){
                 color = '#8C61AC'
             }
         }
+     
    
         return color
     }
@@ -39,7 +53,7 @@ export function Bars(props){
             width = {(width)/31}
             height = {height - yScale(d.deaths/yearlySum)} 
             fill={getColor(d.cause)} stroke = {"black"}
-            onMouseOver = {(e)=>mouseOver(e,d)} onMouseOut = {mouseOut}>
+            onMouseOver = {()=>mouseOver(d)} onMouseOut = {mouseOut}>
             </rect>
         })}
     </g>

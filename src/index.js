@@ -35,6 +35,7 @@ function General() {
     const [selectedOrder,setSelectedOrder] = React.useState(null);
     const [left,setLeft] = React.useState(null);
     const [top,setTop] = React.useState(null);
+    const [selectedCause,setSelectedCause] = React.useState(null);
     // const [barData,setBarData] = React.useState(null);
 
     const WIDTH = window.innerWidth;
@@ -47,7 +48,16 @@ function General() {
     const data = dataAll.filter( d => { 
       return d.country=== selectedCountry 
     });
-    
+         
+    const diseases = ['Meningitis',"Alzheimer's Disease and Other Dementias","Parkinson's Disease",
+    "Nutritional Deficiencies","Malaria","HIV/AIDS","Tuberculosis","Cardiovascular Diseases",
+    "Lower Respiratory Infections","Diarrheal Diseases","Neoplasms","Diabetes Mellitus","Chronic Kidney Disease",
+    "Protein-Energy Malnutrition","Chronic Respiratory Diseases","Cirrhosis and Other Chronic Liver Diseases",
+    "Digestive Diseases","Acute Hepatitis","Maternal Disorders","Drug Use Disorders","Neonatal Disorders","Alcohol Use Disorders"];
+   
+    const humanFactors=["Interpersonal Violence","Self-harm","Conflict and Terrorism","Poisonings","Road Injuries"];
+    const natureFactors =["Drowning","Exposure to Forces of Nature","Environmental Heat and Cold Exposure",
+    "Fire, Heat, and Hot Substances"]
     // get cause lists
     var cause= data.map(d=>d.cause);
     var filteredCauses = [];
@@ -142,9 +152,32 @@ function General() {
       setLeft(null);
       setTop(null);
   }
+  const mouseOver = (d) =>{
+    console.log(d);
+    if(d.cause!==undefined){
+      // setSelectedCause(d.cause);
+      if (diseases.includes(d.cause)) {
+        setSelectedCause(diseases);
+      }
+      if (humanFactors.includes(d.cause)) {
+        setSelectedCause(humanFactors);
+      }
+      if (natureFactors.includes(d.cause)) {
+        setSelectedCause(natureFactors);
+      }
+    }else{
+        setSelectedCause(d);
+    }
+    console.log(selectedCause);
+  }
+  const mouseOut = () =>{
+      setSelectedCause(null);
+  }
+
  
     return <div className = "allContents">
             <div className = "country">D<i>e</i>aths <div id="one"> &nbsp;Proportion</div> <div id="two"> &nbsp;in</div> <span> &nbsp;{selectedCountry}</span></div>
+            <button className="btns" id="detailBtn"><a href="#detail">Click Me to See Details</a></button>
             <div className="dropdown">
             <button onClick={myFunction} className="dropbtn">Click to Search for Country</button>
             <div id="myDropdown" className="dropdown-content">
@@ -165,7 +198,7 @@ function General() {
           mouseoverCell = {mouseoverCell} mouseoutCell = {mouseoutCell}
           />
           </svg>
-          <button><a href="#detail">Click Me to See Details</a></button>
+          
           <div id = 'detail'> 
           <div>
             <input key="slider" type='range' min='0' max='29' value={year} step='1' onChange={changeHandler}/>
@@ -179,10 +212,11 @@ function General() {
           </select>
           <svg width={WIDTH} height={HEIGHT}>
           <BarChart className="bars" data={barData} HEIGHT={HEIGHT-200} WIDTH={WIDTH/2} allCauses={barCauses}  
-          selectedOrder={selectedOrder} />
-          <MultipleLineChart x={WIDTH/2} y={0} WIDTH={WIDTH/2} HEIGHT={HEIGHT-200} years={years.sort()} data={data} 
-          allCauses = {filteredCauses} allCountries = {filteredCountry} allYears = {filteredYears} />
+          selectedOrder={selectedOrder} mouseOver = {mouseOver} mouseOut = {mouseOut} selectedCause={selectedCause} />
+          <MultipleLineChart x={WIDTH/2} y={0} WIDTH={WIDTH/2} HEIGHT={HEIGHT-200} data={data} allYears = {filteredYears}
+          mouseOver = {mouseOver} mouseOut = {mouseOut} selectedCause={selectedCause} />
           </svg>
+          <button id="backBtn" className="btns"><a href="#one">Click Me to Go Back</a></button>
           </div>
           <Tooltip d={selectedCell} data = {data} left={left} top={top}/>
       </div>

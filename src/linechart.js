@@ -2,11 +2,43 @@ import React from "react";
 import * as d3 from "d3";
 
 export function MultipleLineChart(props){
-    const {x, y, WIDTH, HEIGHT, years, data,allCauses,allCountries,allYears} = props;
+    const {x, y, WIDTH, HEIGHT, data, allYears, mouseOver, mouseOut, selectedCause} = props;
 
     const margin = {top: 50, right: 50, bottom: 100, left: 50};
     const height = HEIGHT - margin.top - margin.bottom;
     const width = WIDTH - margin.left - margin.right;
+
+    const getColor = (category) => {
+        var color;
+        // console.log(category == selectedCause)
+        if (selectedCause!=null) {
+            if (selectedCause.includes(category[0])) {
+                color = "#e75480"
+            }
+           else{
+            if (diseases.includes(category[0])) {
+                color = '#4D004B'
+            }
+            if (humanFactors.includes(category[0])) {
+                color = '#8D88BF'
+            }
+            if (natureFactors.includes(category[0])) {
+                color = '#8C61AC'
+            }
+           }
+        }else{
+            if (diseases.includes(category[0])) {
+                color = '#4D004B'
+            }
+            if (humanFactors.includes(category[0])) {
+                color = '#8D88BF'
+            }
+            if (natureFactors.includes(category[0])) {
+                color = '#8C61AC'
+            }
+        }
+        return color
+    }
 
     const diseases = ['Meningitis',"Alzheimer's Disease and Other Dementias","Parkinson's Disease",
     "Nutritional Deficiencies","Malaria","HIV/AIDS","Tuberculosis","Cardiovascular Diseases",
@@ -24,7 +56,7 @@ export function MultipleLineChart(props){
     for (let i = 1990; i < 2020; i++) {
         di[i] = d3.sum(data.filter(d=> diseases.includes(d.cause)&& d.year==i).map(d => d.deaths))
     }
-    console.log(d3.max(Object.values(di)))
+    // console.log(d3.max(Object.values(di)))
 
     const xScale = d3.scaleBand().range([0, width]).domain(allYears);
     const yScale = d3.scaleLinear().range([height, 0]).domain([0, d3.max(Object.values(di))]).nice();
@@ -84,9 +116,9 @@ export function MultipleLineChart(props){
                         {"Year"}
             </text>
         
-        <path d={line(points1)} stroke={"#4D004B"} strokeWidth={3} fill={"none"} transform={`translate(10,50)`}/>
-        <path d={line(points2)} stroke={"#8D88BF"} strokeWidth={3} fill={"none"} transform={`translate(10,50)`} />
-        <path d={line(points3)} stroke={"#8C61AC"} strokeWidth={3} fill={"none"} transform={`translate(10,50)`} />
+        <path className="lines" d={line(points1)} stroke={getColor(diseases)} strokeWidth={5} fill={"none"} transform={`translate(10,50)`} onMouseOver = {()=>mouseOver(diseases)} onMouseOut = {mouseOut}/>
+        <path className="lines"d={line(points2)} stroke={getColor(humanFactors)} strokeWidth={5} fill={"none"} transform={`translate(10,50)`} onMouseOver = {()=>mouseOver(humanFactors)} onMouseOut = {mouseOut}/>
+        <path className="lines"d={line(points3)} stroke={getColor(natureFactors)} strokeWidth={5} fill={"none"} transform={`translate(10,50)`} onMouseOver = {()=>mouseOver(natureFactors)} onMouseOut = {mouseOut}/>
 
         <text style={{ textAnchor:'end', fontSize:'18px'}} stroke={"#4D004B"} transform={`translate(${xScale(parseInt(Object.keys(di)[29]))}, ${yScale(Object.values(di)[29])+50})`}>
                         {"Diseases"}
