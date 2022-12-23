@@ -3,7 +3,7 @@
 ## Why People Died
   
 ### Overview
-![](https://drive.google.com/file/d/1OoVtOIDSFwoFV0-OIrKJWR7C49fAL1_M/view?usp=sharing)
+![Screenshot](localhost_9000_ (1).png)
 
 ### Data
 [Original Source](https://www.kaggle.com/datasets/iamsouravbanerjee/cause-of-deaths-around-the-world)  
