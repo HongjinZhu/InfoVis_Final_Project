@@ -1,6 +1,13 @@
 # InfoVis Final Project
 ### Fall 2022
 ## Why People Died
+  
+### Overview
+![](https://drive.google.com/file/d/1OoVtOIDSFwoFV0-OIrKJWR7C49fAL1_M/view?usp=sharing)
+
+### Data
+[Original Source](https://www.kaggle.com/datasets/iamsouravbanerjee/cause-of-deaths-around-the-world)  
+[After Transformation](https://raw.githubusercontent.com/HongjinZhu/InfoVis_Final_Project/main/new_cod.csv)
 
 #### Using Webpack to Run the Project:
 (1) create a folder; download and unzip the project zip file into the folder;  
